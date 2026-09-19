@@ -46,7 +46,23 @@ situsnya terlanjur naik dalam keadaan pecah.
 
 Di GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
-Tanpa langkah ini workflow akan gagal dengan error soal Pages belum aktif.
+Tanpa langkah ini workflow gagal di langkah pertama:
+
+```
+Error: Get Pages site failed. Please verify that the repository has Pages
+enabled and configured to build using GitHub Actions
+Error: HttpError: Not Found
+```
+
+Setelah Source disetel, buka tab **Actions**, pilih run yang gagal, lalu
+**Re-run all jobs**. Tidak perlu commit ulang.
+
+**Kenapa tidak diotomatiskan saja?** `actions/configure-pages` punya input
+`enablement: true` yang terdengar seperti jalan pintas, tapi `action.yml`-nya
+menyatakan opsi itu *"requires a token other than `GITHUB_TOKEN`"* — yaitu
+Personal Access Token dengan scope `repo`. Menyimpan PAT sebagai secret hanya
+untuk menghindari dua klik jelas tidak sepadan, apalagi PAT itu justru memperluas
+akses yang dipegang CI.
 
 ### Setelah itu
 
