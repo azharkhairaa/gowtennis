@@ -8,8 +8,9 @@ Landing page dan dokumen profil untuk **Gow! Tennis**, komunitas tenis di Bandun
 gowtennis/
 ├── backend/          FastAPI — API profil, program, feed sosial, form kontak
 ├── frontend/         Vue 3 + Vite — landing page
-├── tools/            Skrip pembangkit PDF & DOCX + aset logo
-├── docs/             PDF + DOCX profil & dokumentasi integrasi sosial
+├── tools/            Skrip pembangkit PDF & DOCX, pre-render statis, deploy
+├── docs/             PDF + DOCX profil & dokumentasi (integrasi sosial, deploy)
+├── .github/          Workflow auto-deploy ke GitHub Pages
 └── README.md
 ```
 
@@ -48,6 +49,32 @@ cd backend && .venv/bin/python -m pytest tests/ -q
 ```bash
 cd frontend && npm run build
 ```
+
+---
+
+## Preview online
+
+Situs di-deploy sebagai **situs statis** — FastAPI tidak ikut, karena seluruh
+data yang dilayaninya sekarang bersifat tetap dan dibekukan saat build oleh
+`tools/buat_static.py`. Sudah diuji dengan backend dimatikan: semua halaman,
+embed Instagram, dan form kontak tetap jalan.
+
+**GitHub Pages (otomatis).** Setiap push ke `main` memicu
+`.github/workflows/deploy-pages.yml`. Sekali saja perlu diaktifkan di
+**Settings → Pages → Source: GitHub Actions**.
+
+URL: <https://azharkhairaa.github.io/gowtennis/>
+
+**Surge.sh (manual, sekali pakai).**
+
+```bash
+./tools/deploy-surge.sh
+```
+
+Perbandingan keduanya dan penjelasan lengkap: **[docs/DEPLOY.md](docs/DEPLOY.md)**
+
+> Karena datanya dibekukan saat build, setiap perubahan pada `profile.json` atau
+> `social_feed.json` baru tampil setelah build ulang. Di Pages ini otomatis.
 
 ---
 

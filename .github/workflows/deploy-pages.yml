@@ -1,0 +1,79 @@
+name: Deploy ke GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Izin minimum yang dibutuhkan actions/deploy-pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Kalau ada push beruntun, biarkan yang sedang jalan selesai lalu pakai yang
+# terbaru. Deploy tidak boleh saling menimpa.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Konfigurasi Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Siapkan Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Pasang dependensi backend
+        run: pip install -r backend/requirements.txt
+
+      - name: Pre-render data jadi JSON statis
+        # FastAPI tidak ikut ke Pages, jadi seluruh respons endpoint GET
+        # dibekukan lebih dulu jadi berkas .json.
+        run: python tools/buat_static.py
+
+      - name: Jalankan test backend
+        # Kalau data di profile.json rusak, lebih baik ketahuan di sini
+        # daripada situsnya terlanjur naik dalam keadaan pecah.
+        run: cd backend && python -m pytest tests/ -q
+
+      - name: Siapkan Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Pasang dependensi frontend
+        run: cd frontend && npm ci
+
+      - name: Build
+        env:
+          # base_path dari configure-pages: "/gowtennis" untuk project site,
+          # kosong kalau nanti pakai custom domain. Keduanya tertangani.
+          VITE_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: cd frontend && npm run build:static
+
+      - name: Unggah artefak
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

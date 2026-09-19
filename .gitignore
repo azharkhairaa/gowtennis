@@ -1,0 +1,22 @@
+# Dependensi — dipasang ulang dari package-lock.json / requirements.txt
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Hasil build — dibangun ulang oleh CI, tidak perlu masuk repo
+frontend/dist/
+frontend/public/api/
+
+# Rahasia
+.env
+*.local
+
+# Cache & sampah OS
+.pytest_cache/
+.DS_Store
+*.log
+
+# Berkas kunci sementara Word/Excel saat dokumen sedang dibuka
+~$*
