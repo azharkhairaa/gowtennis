@@ -1,0 +1,15 @@
+{
+  "feed_mode": "curated",
+  "instagram": {
+    "otomatis_aktif": false,
+    "kredensial_lengkap": false,
+    "syarat": "Akun Professional (Business/Creator) + Meta App + access token",
+    "catatan": "Instagram Basic Display API dimatikan 4 Desember 2024. Jalur resmi yang tersisa adalah Instagram Graph API / Instagram API with Instagram Login."
+  },
+  "tiktok": {
+    "otomatis_aktif": false,
+    "syarat": "URL video dikurasi manual, metadata diambil via oEmbed publik",
+    "catatan": "oEmbed tidak butuh API key tapi hanya menerjemahkan satu URL. Untuk daftar video otomatis butuh TikTok Display API (Login Kit) yang perlu persetujuan TikTok."
+  },
+  "cache_ttl_detik": 900
+}

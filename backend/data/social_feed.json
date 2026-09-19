@@ -1,0 +1,49 @@
+{
+  "_petunjuk": "Daftar kurasi post yang tampil di website saat mode feed = 'curated'. Sengaja dibatasi 3 post Instagram terbaru supaya halaman tetap ringan dan semuanya muat sebagai embed penuh dalam satu baris. Untuk menambah post: salin shortcode dari URL post, tempel sebagai entry baru, dan buang yang paling lama. Backend melengkapi judul & thumbnail lewat oEmbed (TikTok) atau blockquote resmi (Instagram).",
+  "instagram": [
+    {
+      "shortcode": "DdTslKYhfA0",
+      "tipe": "reel",
+      "tanggal": "2026-09-15",
+      "judul": "Coba Tebak Yang Mana Coachnya?",
+      "unggulan": true
+    },
+    {
+      "shortcode": "DdJbG-8BhHt",
+      "tipe": "reel",
+      "tanggal": "2026-09-11",
+      "judul": "Doa Sebelum Coaching Tennis",
+      "unggulan": true
+    },
+    {
+      "shortcode": "DdIOn7mDz9g",
+      "tipe": "p",
+      "tanggal": "2026-09-10",
+      "judul": "Tuesday energy",
+      "unggulan": true
+    }
+  ],
+  "tiktok": [
+    {
+      "url": "",
+      "judul": "Coba Tebak Yang Mana Coachnya?",
+      "views": 3924,
+      "unggulan": true,
+      "_catatan": "URL belum diisi. TikTok tidak mengekspos daftar video ke pengunjung anonim, jadi ID video harus disalin manual sekali dari aplikasi/browser yang sudah login: buka video, tombol Share, Copy link. Setelah URL diisi, judul & thumbnail akan diambil otomatis lewat oEmbed."
+    },
+    {
+      "url": "",
+      "judul": "Tennis for beginners - Lapangan indoor UPI",
+      "views": 588,
+      "unggulan": true,
+      "_catatan": "Idem. Video berisi info paket 85k/2 jam."
+    },
+    {
+      "url": "",
+      "judul": "Sesi latihan",
+      "views": 263,
+      "unggulan": false,
+      "_catatan": "Idem."
+    }
+  ]
+}
