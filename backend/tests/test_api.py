@@ -33,7 +33,7 @@ def test_profile_lengkap():
     data = r.json()
     assert data["brand"]["nama"] == "Gow! Tennis"
     assert data["brand"]["kota"] == "Bandung"
-    assert len(data["program"]) == 3
+    assert len(data["program"]) == 4
     # Angka yang dipakai di halaman harus konsisten dengan hasil riset.
     assert data["sosial"]["instagram"]["followers"] == 1516
     assert data["sosial"]["tiktok"]["followers"] == 1963
@@ -47,13 +47,50 @@ def test_stats_total_followers_konsisten():
 
 
 def test_programs():
+    """Jadwal mingguan per 25 Sep 2026: empat kelas tetap."""
     r = client.get("/api/programs")
     assert r.status_code == 200
     body = r.json()
-    assert body["jumlah"] == 3
+    assert body["jumlah"] == 4
     nama = [p["nama"] for p in body["items"]]
-    assert "Coaching Session" in nama
-    assert "Tennis Malam Minggu" in nama
+    assert nama == ["Semi-Intense", "Coaching Beginner", "Fun Games", "Private"]
+
+
+def test_setiap_program_punya_hari_dan_harga():
+    """Poster mencantumkan hari dan tarif untuk keempatnya; jangan sampai hilang."""
+    for p in client.get("/api/programs").json()["items"]:
+        assert p["hari"], f"{p['nama']} tidak punya hari"
+        assert p["harga"] and p["harga"].startswith("Rp"), f"{p['nama']} tarifnya janggal"
+
+
+def test_tarif_private_konsisten_dengan_tarif_per_jam():
+    """Coaching 2 jam harus sama dengan 2x tarif per jam, dan total = sewa + coaching.
+
+    Ini penjaga aritmetika: dua poster sumbernya terpisah, jadi kalau salah satu
+    diperbarui sendirian angkanya langsung ketahuan tidak cocok.
+    """
+
+    def rupiah(teks):
+        return int("".join(c for c in teks if c.isdigit()))
+
+    private = next(
+        p for p in client.get("/api/programs").json()["items"] if p["nama"] == "Private"
+    )
+    per_jam = rupiah(private["harga"])
+    assert private["tarif_lapangan"], "rincian per lapangan hilang"
+    for t in private["tarif_lapangan"]:
+        assert rupiah(t["coaching"]) == per_jam * 2, t["lapangan"]
+        assert rupiah(t["total"]) == rupiah(t["sewa_lapangan"]) + rupiah(t["coaching"]), t["lapangan"]
+
+
+def test_setiap_program_punya_lapangan_terdaftar():
+    """Lokasi yang disebut program harus ada di daftar venue, biar tidak menggantung."""
+    data = client.get("/api/profile").json()
+    nama_venue = " | ".join(v["nama"] for v in data["venue"])
+    for p in data["program"]:
+        kata_kunci = [k for k in ("UPI", "PRV", "Abadi", "Secapa") if k in p["lokasi"]]
+        assert kata_kunci, f"{p['nama']}: lokasi tidak dikenali"
+        assert any(k in nama_venue for k in kata_kunci), f"{p['nama']}: lapangan belum terdaftar"
 
 
 def test_feed_mode_curated_menghasilkan_embed_instagram():

@@ -42,27 +42,63 @@ ke `main`. Alurnya: pre-render JSON → jalankan test backend → build → ungg
 Test ikut dijalankan supaya kalau `profile.json` rusak, ketahuan sebelum
 situsnya terlanjur naik dalam keadaan pecah.
 
-### Sekali saja: aktifkan Pages
+### Sekali saja: siapkan PAGES_TOKEN
 
-Di GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+Pages diaktifkan otomatis oleh workflow, tapi butuh satu token karena
+`GITHUB_TOKEN` bawaan **tidak diizinkan** memanggil endpoint pembuatan Pages
+(`POST /repos/{owner}/{repo}/pages`) berapa pun `permissions` yang ditulis di
+workflow. Tokennya harus datang dari luar.
 
-Tanpa langkah ini workflow gagal di langkah pertama:
+**1. Buat token.** Buka
+<https://github.com/settings/personal-access-tokens/new> (Settings → Developer
+settings → Personal access tokens → **Fine-grained tokens**), lalu isi:
 
-```
-Error: Get Pages site failed. Please verify that the repository has Pages
-enabled and configured to build using GitHub Actions
-Error: HttpError: Not Found
-```
+| Kolom | Isi |
+|---|---|
+| Token name | `gowtennis-pages` |
+| Expiration | 90 hari (atau sesuai selera) |
+| Repository access | **Only select repositories** → `gowtennis` |
+| Permissions → Pages | **Read and write** |
+| Permissions → Administration | **Read and write** |
 
-Setelah Source disetel, buka tab **Actions**, pilih run yang gagal, lalu
-**Re-run all jobs**. Tidak perlu commit ulang.
+Dua izin itu yang diminta endpoint tersebut. Karena aksesnya dibatasi ke satu
+repo, cakupannya jauh lebih sempit daripada token classic.
 
-**Kenapa tidak diotomatiskan saja?** `actions/configure-pages` punya input
-`enablement: true` yang terdengar seperti jalan pintas, tapi `action.yml`-nya
-menyatakan opsi itu *"requires a token other than `GITHUB_TOKEN`"* — yaitu
-Personal Access Token dengan scope `repo`. Menyimpan PAT sebagai secret hanya
-untuk menghindari dua klik jelas tidak sepadan, apalagi PAT itu justru memperluas
-akses yang dipegang CI.
+Klik **Generate token**, lalu salin nilainya. Token hanya tampil sekali.
+
+**2. Simpan sebagai secret.** Buka
+<https://github.com/azharkhairaa/gowtennis/settings/secrets/actions> →
+**New repository secret**:
+
+- Name: `PAGES_TOKEN`
+- Secret: tempel tokennya
+
+Tempel hanya di halaman itu. Jangan menaruhnya di berkas mana pun di repo,
+jangan kirim lewat chat, dan jangan tulis di pesan commit.
+
+**3. Jalankan ulang.** Tab **Actions** → run yang gagal → **Re-run all jobs**.
+
+Workflow akan membuat Pages sekaligus menyetel sumbernya ke GitHub Actions
+(`build_type: workflow`), jadi tidak ada yang perlu dipilih manual di Settings.
+
+### Kalau lebih suka tanpa token
+
+Alternatifnya cukup dua klik dan tidak perlu token sama sekali:
+**Settings → Pages → Build and deployment → Source: GitHub Actions**, lalu
+re-run. Workflow ini menangani keduanya — tanpa `PAGES_TOKEN`, `enablement`
+otomatis dimatikan dan deploy tetap jalan memakai `GITHUB_TOKEN`.
+
+Karena itu pula **`PAGES_TOKEN` boleh dihapus setelah deploy pertama berhasil.**
+Pages hanya perlu dibuat sekali; sesudah itu workflow tidak membutuhkannya lagi.
+
+### Kalau muncul 403 saat membuat Pages
+
+Berarti izin tokennya kurang. Periksa bahwa **Administration: Read and write**
+benar-benar tercentang, dan repo `gowtennis` ada di daftar repository access.
+Kalau fine-grained tetap ditolak, token **classic** dengan scope `repo` pasti
+diterima (itu yang tercantum eksplisit di dokumentasi REST) — tapi scope `repo`
+berlaku untuk **semua** repo milikmu, jadi pakai itu hanya sebagai jalan
+terakhir dan cabut setelah selesai.
 
 ### Setelah itu
 

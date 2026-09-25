@@ -8,15 +8,19 @@ defineProps({
   <section id="lapangan" class="section section--soft">
     <div class="wrap">
       <span class="eyebrow">Lapangan</span>
-      <h2 class="section-title">Dua titik main di Bandung</h2>
+      <h2 class="section-title">Lima titik main di Bandung</h2>
       <p class="section-lead">
-        Sesi berpindah antara lapangan indoor kampus dan lapangan outdoor,
-        menyesuaikan program dan cuaca.
+        Setiap program punya lapangannya sendiri, tersebar di kampus UPI dan
+        beberapa titik lain di Bandung.
       </p>
 
       <div class="venue__grid">
         <article v-for="v in venue" :key="v.nama" class="card venue__card">
-          <span class="venue__type" :class="`venue__type--${v.tipe.toLowerCase()}`">
+          <span
+            v-if="v.tipe"
+            class="venue__type"
+            :class="`venue__type--${v.tipe.toLowerCase()}`"
+          >
             {{ v.tipe }}
           </span>
           <h3>{{ v.nama }}</h3>

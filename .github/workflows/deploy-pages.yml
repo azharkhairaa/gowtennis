@@ -1,15 +1,18 @@
 name: Deploy ke GitHub Pages
 
-# PRASYARAT SEKALI SAJA:
-#   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+# AKTIVASI PAGES
 #
-# Tanpa itu, langkah "Konfigurasi Pages" gagal dengan:
-#   "Get Pages site failed ... Not Found"
+# Pages diaktifkan otomatis oleh langkah "Konfigurasi Pages", asalkan repository
+# secret bernama PAGES_TOKEN tersedia. Isinya PAT milikmu; lihat docs/DEPLOY.md
+# untuk cara membuatnya.
 #
-# Input `enablement: true` pada configure-pages TIDAK menolong di sini: menurut
-# action.yml-nya, opsi itu menuntut token selain GITHUB_TOKEN (PAT dengan scope
-# `repo`). Mengaktifkan lewat Settings sekali jauh lebih sederhana daripada
-# menyimpan PAT sebagai secret hanya untuk ini.
+# Kenapa perlu PAT: `enablement` memanggil POST /repos/{owner}/{repo}/pages, dan
+# GITHUB_TOKEN bawaan tidak boleh memakai endpoint itu berapa pun permissions
+# yang diberikan di workflow. Jadi tokennya harus datang dari luar.
+#
+# Kalau PAGES_TOKEN tidak ada, workflow tetap berjalan memakai GITHUB_TOKEN dan
+# enablement dimatikan. Itu tetap berhasil selama Pages sudah pernah aktif, jadi
+# PAT boleh dicabut setelah deploy pertama kalau tidak ingin menyimpannya.
 
 on:
   push:
@@ -36,8 +39,13 @@ jobs:
 
       - name: Konfigurasi Pages
         id: pages
-        # Gagal "Not Found" di sini = Pages belum diaktifkan di Settings.
         uses: actions/configure-pages@v6
+        with:
+          # Pakai PAT bila tersedia, kalau tidak jatuh ke GITHUB_TOKEN.
+          token: ${{ secrets.PAGES_TOKEN || github.token }}
+          # Hanya coba aktifkan kalau memang ada PAT; dengan GITHUB_TOKEN
+          # percobaan itu pasti gagal, jadi lebih baik tidak dilakukan.
+          enablement: ${{ secrets.PAGES_TOKEN != '' }}
 
       - name: Siapkan Python
         uses: actions/setup-python@v7

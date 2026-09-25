@@ -4,15 +4,38 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 
+class TarifLapangan(BaseModel):
+    """Rincian biaya kelas privat per lapangan.
+
+    Coaching dan sewa lapangan ditagih terpisah, jadi keduanya disimpan apa
+    adanya berikut totalnya supaya tidak perlu dihitung ulang di tiap tampilan.
+    """
+
+    lapangan: str
+    sewa_lapangan: str
+    coaching: str
+    total: str
+
+
+class Tambahan(BaseModel):
+    nama: str
+    harga: str
+    keterangan: Optional[str] = None
+
+
 class Program(BaseModel):
     nama: str
     level: Optional[str] = None
+    hari: Optional[str] = None
     lokasi: Optional[str] = None
     jadwal: Optional[str] = None
     durasi: Optional[str] = None
     kapasitas: Optional[str] = None
     harga: Optional[str] = None
     termasuk: List[str] = Field(default_factory=list)
+    belum_termasuk: List[str] = Field(default_factory=list)
+    tarif_lapangan: List[TarifLapangan] = Field(default_factory=list)
+    tambahan: List[Tambahan] = Field(default_factory=list)
     catatan: Optional[str] = None
 
 
@@ -23,7 +46,7 @@ class Nilai(BaseModel):
 
 class Venue(BaseModel):
     nama: str
-    tipe: str
+    tipe: Optional[str] = None
     kota: str
     dipakai_untuk: str
 

@@ -323,7 +323,7 @@ def bangun(d: dict) -> Document:
         ("Basis", f'{brand["kota"]}, {brand["negara"]}'),
         ("Fokus level", "Beginner sampai upper beginner"),
         ("Layanan", ", ".join(p_["nama"] for p_ in d["program"])),
-        ("Lapangan", ", ".join(v["nama"] for v in d["venue"])),
+        ("Lapangan", f'{len(d["venue"])} lokasi: ' + ", ".join(v["nama"].replace("Lapangan ", "") for v in d["venue"])),
         ("Biaya mulai", harga_mulai),
         ("Jangkauan sosial",
          f'{ig["followers"]:,}'.replace(",", ".") + " pengikut Instagram, "
@@ -342,33 +342,44 @@ def bangun(d: dict) -> Document:
     judul(doc, "Program & Biaya", 1)
     paragraf_baru(
         doc,
-        "Seluruh program terbuka untuk pemain pemula. Perlengkapan dasar sudah "
-        "termasuk dalam biaya, sehingga peserta baru tidak perlu membeli raket "
-        "sebelum mencoba.",
+        "Jadwal berjalan tetap setiap pekan. Kelas Senin dan Selasa di UPI sudah "
+        "mencakup raket, bola, dan ballboy, sehingga peserta baru tidak perlu "
+        "membeli perlengkapan sebelum mencoba. Untuk kelas privat, biaya coaching "
+        "dan sewa lapangan dihitung terpisah.",
         9.5, spasi_bawah=10,
     )
 
     baris = []
     for p_ in d["program"]:
-        waktu = p_.get("jadwal") or p_.get("durasi") or "—"
-        if p_.get("kapasitas"):
-            waktu += f' ({p_["kapasitas"]})'
+        jadwal = p_.get("jadwal") or ""
+        jam = jadwal.split(",", 1)[1].strip() if "," in jadwal else (p_.get("durasi") or "—")
         baris.append([
-            p_["nama"], p_.get("level", "—"), waktu,
-            p_.get("lokasi", "—"), p_.get("harga", "—"),
+            p_["nama"], p_.get("hari", "—"), jam,
+            p_.get("lokasi", "—"), p_.get("kapasitas", "—"), p_.get("harga", "—"),
         ])
     tabel_data(
-        doc, ["Program", "Level", "Jadwal / Durasi", "Lokasi", "Biaya"], baris,
-        [LEBAR * 0.20, LEBAR * 0.17, LEBAR * 0.21, LEBAR * 0.24, LEBAR * 0.18],
+        doc, ["Program", "Hari", "Jam", "Lokasi", "Kuota", "Biaya"], baris,
+        [LEBAR * 0.19, LEBAR * 0.10, LEBAR * 0.16, LEBAR * 0.21, LEBAR * 0.13, LEBAR * 0.21],
     )
 
     judul(doc, "Rincian Paket", 2)
     for p_ in d["program"]:
         isi = [("Termasuk", ", ".join(p_["termasuk"]) if p_.get("termasuk") else "—")]
+        if p_.get("belum_termasuk"):
+            isi.append(("Belum termasuk", ", ".join(p_["belum_termasuk"])))
         if p_.get("pelatih"):
             isi.append(("Pelatih", p_["pelatih"]))
+        for t_ in p_.get("tarif_lapangan", []):
+            isi.append((
+                f'Lapangan {t_["lapangan"]}',
+                f'sewa {t_["sewa_lapangan"]} + coaching {t_["coaching"]} = '
+                f'{t_["total"]} per sesi 2 jam',
+            ))
+        for t_ in p_.get("tambahan", []):
+            ket = f' ({t_["keterangan"]})' if t_.get("keterangan") else ""
+            isi.append((t_["nama"], f'{t_["harga"]}{ket}'))
         isi.append(("Catatan", p_.get("catatan", "—")))
-        tabel_label_nilai(doc, p_["nama"], isi, [LEBAR * 0.22, LEBAR * 0.78])
+        tabel_label_nilai(doc, p_["nama"], isi, [LEBAR * 0.24, LEBAR * 0.76])
         paragraf_baru(doc, "", spasi_bawah=8)
 
     doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
@@ -380,7 +391,7 @@ def bangun(d: dict) -> Document:
     judul(doc, "Lapangan", 2)
     tabel_data(
         doc, ["Lapangan", "Tipe", "Kota", "Dipakai untuk"],
-        [[v["nama"], v["tipe"], v["kota"], v["dipakai_untuk"]] for v in d["venue"]],
+        [[v["nama"], v.get("tipe") or "—", v["kota"], v["dipakai_untuk"]] for v in d["venue"]],
         [LEBAR * 0.33, LEBAR * 0.14, LEBAR * 0.15, LEBAR * 0.38],
     )
 

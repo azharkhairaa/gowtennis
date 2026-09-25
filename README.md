@@ -60,8 +60,13 @@ data yang dilayaninya sekarang bersifat tetap dan dibekukan saat build oleh
 embed Instagram, dan form kontak tetap jalan.
 
 **GitHub Pages (otomatis).** Setiap push ke `main` memicu
-`.github/workflows/deploy-pages.yml`. Sekali saja perlu diaktifkan di
-**Settings → Pages → Source: GitHub Actions**.
+`.github/workflows/deploy-pages.yml`.
+
+Sekali saja, pilih salah satu:
+- simpan repository secret `PAGES_TOKEN` (PAT) — Pages dibuat otomatis, atau
+- aktifkan manual di **Settings → Pages → Source: GitHub Actions**
+
+Langkah persisnya ada di [docs/DEPLOY.md](docs/DEPLOY.md).
 
 URL: <https://azharkhairaa.github.io/gowtennis/>
 
@@ -160,9 +165,21 @@ klub. Daftar ini juga tercetak di halaman terakhir PDF.
 - [ ] Alamat lengkap dan titik peta kedua lapangan
 - [ ] Foto-foto asli untuk hero dan galeri (sekarang memakai logo + embed)
 
-Sudah terverifikasi dari sumber aslinya: nomor WhatsApp admin **082312273282**,
-pelatih **Coach Iwan**, harga **Rp85.000** (coaching, 2 jam, 6 orang) dan
-**Rp115.000** (Tennis Malam Minggu, Sabtu 18.00–20.00 di Lapang Outdoor Pusdikku).
+Jadwal dan tarif terkini mengikuti poster resmi klub per **25 September 2026**
+(arsipnya di `docs/sumber/`):
+
+| Hari | Kelas | Jam | Lapangan | Biaya |
+|---|---|---|---|---|
+| Senin | Semi-Intense | 08.00–10.00 | Indoor UPI | Rp105.000 (7 orang) |
+| Selasa | Coaching Beginner | 16.00–18.00 | Outdoor UPI | Rp50.000 (10 orang) |
+| Sabtu | Fun Games | 16.00–18.00 | Tennis PRV | Rp55.000 |
+| Sabtu | Private | by appointment | Abadi / Secapa | Rp165.000/jam |
+
+Kelas privat: coaching Rp330.000 per sesi 2 jam, sewa lapangan terpisah —
+Abadi Rp240.000 (total Rp570.000), Secapa Rp250.000 (total Rp580.000).
+Fotografer Rp100.000 by request.
+
+WhatsApp admin **082312273282**.
 
 ---
 

@@ -1,8 +1,8 @@
 {
   "meta": {
-    "sumber": "Riset profil publik Instagram @gowtennis & TikTok @gowtennis",
-    "tanggal_riset": "2026-09-19",
-    "catatan": "Angka follower & jumlah post adalah snapshot per tanggal riset. Field bertanda perlu_konfirmasi=true belum terverifikasi dan harus dilengkapi pengelola klub."
+    "sumber": "Riset profil publik Instagram @gowtennis & TikTok @gowtennis, diperbarui dari poster jadwal resmi klub (25 September 2026)",
+    "tanggal_riset": "2026-09-25",
+    "catatan": "Program, tarif, dan lapangan mengikuti poster jadwal 25 September 2026. Angka follower adalah snapshot 19 September 2026. Field bertanda perlu_konfirmasi belum terverifikasi dan harus dilengkapi pengelola klub."
   },
   "brand": {
     "nama": "Gow! Tennis",
@@ -11,17 +11,17 @@
     "kategori": "Community",
     "kota": "Bandung",
     "negara": "Indonesia",
-    "deskripsi_singkat": "Komunitas tenis di Bandung yang membuka coaching session dan fun match untuk pemain pemula sampai upper beginner, dengan suasana santai dan ramah pendatang baru.",
-    "deskripsi_panjang": "Gow! Tennis adalah komunitas tenis asal Bandung yang dibangun di sekitar satu ide sederhana: tenis tidak harus menegangkan untuk jadi serius. Taglinenya, \"Kadang Melesat, Kadang Meleset\", dipakai apa adanya sebagai izin untuk gagal di lapangan dan tetap kembali minggu depan. Aktivitasnya berputar pada dua hal, coaching session terstruktur untuk pemula sampai upper beginner, dan fun match sebagai ruang bermain tanpa beban. Sesi digelar di lapangan indoor kampus Universitas Pendidikan Indonesia dan lapangan outdoor Pusdikku, dengan paket yang sudah mencakup bola, ballboy, dan raket pinjaman bagi yang belum punya, sehingga pendatang baru bisa ikut tanpa modal peralatan lebih dulu. Kanal Instagram dan TikTok-nya dipakai bukan sekadar etalase, melainkan pintu masuk: pendaftaran berjalan lewat DM, jadwal diumumkan lewat feed, dan konten hariannya mencampur dokumentasi latihan dengan humor khas komunitas."
+    "deskripsi_singkat": "Komunitas tenis di Bandung dengan jadwal kelas tetap tiap pekan, dari kelas pemula Rp50.000 sampai sesi privat, di lapangan UPI dan sekitarnya.",
+    "deskripsi_panjang": "Gow! Tennis adalah komunitas tenis asal Bandung yang dibangun di sekitar satu ide sederhana: tenis tidak harus menegangkan untuk jadi serius. Taglinenya, \"Kadang Melesat, Kadang Meleset\", dipakai apa adanya sebagai izin untuk gagal di lapangan dan tetap kembali minggu depan. Jadwalnya berjalan tetap setiap pekan, dari kelas Semi-Intense pada Senin pagi, Coaching Beginner pada Selasa sore, sampai Fun Games pada Sabtu sore, ditambah kelas Private yang diatur sesuai janji temu. Rentang biayanya lebar dan disengaja: Rp50.000 untuk kelas pemula berkuota sepuluh orang, naik sampai kelas privat satu lawan satu, sehingga orang bisa masuk dari titik mana pun sesuai kesiapan. Sebagian besar kelas sudah mencakup raket, bola, dan ballboy, jadi pendatang baru tidak perlu modal peralatan lebih dulu. Sesi tersebar di beberapa lapangan di Bandung, dari lapangan indoor dan outdoor kampus Universitas Pendidikan Indonesia sampai lapangan PRV, Abadi, dan Secapa. Kanal Instagram dan TikTok-nya dipakai bukan sekadar etalase, melainkan pintu masuk: pendaftaran berjalan lewat grup WhatsApp dan DM, jadwal diumumkan lewat feed, dan konten hariannya mencampur dokumentasi latihan dengan humor khas komunitas."
   },
   "nilai": [
     {
       "judul": "Ramah Pemula",
-      "isi": "Kelas dirancang dari titik nol. Raket, bola, dan ballboy sudah termasuk, jadi yang belum punya alat tetap bisa ikut sesi pertama."
+      "isi": "Kelas dirancang dari titik nol. Raket, bola, dan ballboy sudah termasuk di kelas reguler, jadi yang belum punya alat tetap bisa ikut sesi pertama."
     },
     {
       "judul": "Santai tapi Terstruktur",
-      "isi": "Ada pelatih dan progresi kelas beginner ke upper beginner, tapi tanpa tekanan kompetisi yang bikin orang berhenti di minggu kedua."
+      "isi": "Ada progresi nyata dari Coaching Beginner ke Semi-Intense sampai kelas privat, tapi tanpa tekanan kompetisi yang bikin orang berhenti di minggu kedua."
     },
     {
       "judul": "Komunitas Dulu",
@@ -29,46 +29,89 @@
     },
     {
       "judul": "Akses Terbuka",
-      "isi": "Pendaftaran cukup lewat DM Instagram atau WhatsApp admin. Tidak ada keanggotaan berjenjang atau biaya gabung di muka."
+      "isi": "Jadwal tetap tiap pekan dan biaya mulai Rp50.000. Pendaftaran cukup lewat grup WhatsApp atau DM, tanpa keanggotaan berjenjang atau biaya gabung di muka."
     }
   ],
   "program": [
     {
-      "nama": "Coaching Session",
-      "level": "Beginner - Upper Beginner",
-      "lokasi": "Lapangan indoor Universitas Pendidikan Indonesia (UPI)",
+      "nama": "Semi-Intense",
+      "hari": "Senin",
+      "jadwal": "Senin, 08.00 - 10.00 WIB",
       "durasi": "2 jam",
-      "kapasitas": "6 orang per sesi",
-      "harga": "Rp85.000 per orang",
+      "lokasi": "Lapangan Indoor UPI",
+      "kapasitas": "7 orang",
+      "harga": "Rp105.000 per orang",
       "termasuk": [
-        "Bola",
+        "Raket",
         "Ballboy",
-        "Raket pinjaman (request lewat admin)"
+        "Bola",
+        "FG"
       ],
-      "catatan": "Paket kelas reguler untuk pemula. Sumber: caption video TikTok @gowtennis."
+      "catatan": "Kelas dengan porsi latihan lebih padat. Sumber: poster jadwal 25 September 2026."
     },
     {
-      "nama": "Tennis Malam Minggu",
-      "level": "Beginner - Upper Beginner",
-      "lokasi": "Lapangan outdoor Pusdikku, Bandung",
-      "jadwal": "Sabtu, 18.00 - 20.00 WIB",
-      "harga": "Rp115.000 (HTM)",
+      "nama": "Coaching Beginner",
+      "level": "Beginner",
+      "hari": "Selasa",
+      "jadwal": "Selasa, 16.00 - 18.00 WIB",
+      "durasi": "2 jam",
+      "lokasi": "Lapangan Outdoor UPI",
+      "kapasitas": "10 orang",
+      "harga": "Rp50.000 per orang",
       "termasuk": [
-        "Kelas bersama Coach Iwan",
-        "Free air kelapa"
+        "Raket",
+        "Ballboy",
+        "Bola",
+        "FG"
       ],
-      "catatan": "Sesi akhir pekan dengan format kelas plus kumpul. Sumber: poster Instagram @gowtennis.",
-      "pelatih": "Coach Iwan"
+      "catatan": "Kelas termurah dan berkuota paling besar, titik masuk paling ringan untuk pemula."
     },
     {
-      "nama": "Fun Match",
-      "level": "Terbuka",
-      "lokasi": "Menyesuaikan jadwal komunitas",
-      "harga": "Diumumkan per agenda",
+      "nama": "Fun Games",
+      "hari": "Sabtu",
+      "jadwal": "Sabtu, 16.00 - 18.00 WIB",
+      "durasi": "2 jam",
+      "lokasi": "Lapangan Tennis PRV",
+      "harga": "Rp55.000 per orang",
+      "termasuk": [],
+      "catatan": "Sesi bermain santai akhir pekan. Poster tidak merinci perlengkapan yang termasuk."
+    },
+    {
+      "nama": "Private",
+      "hari": "Sabtu",
+      "jadwal": "Sabtu, by appointment",
+      "durasi": "2 jam per sesi",
+      "lokasi": "Lapangan Abadi atau Secapa",
+      "kapasitas": "Perorangan",
+      "harga": "Rp165.000 per jam",
       "termasuk": [
-        "Pertandingan santai antar anggota"
+        "Ballboy"
       ],
-      "catatan": "Disebut sebagai salah satu dari dua layanan utama di bio Instagram."
+      "belum_termasuk": [
+        "Sewa lapangan"
+      ],
+      "tarif_lapangan": [
+        {
+          "lapangan": "Abadi",
+          "sewa_lapangan": "Rp240.000",
+          "coaching": "Rp330.000",
+          "total": "Rp570.000"
+        },
+        {
+          "lapangan": "Secapa",
+          "sewa_lapangan": "Rp250.000",
+          "coaching": "Rp330.000",
+          "total": "Rp580.000"
+        }
+      ],
+      "tambahan": [
+        {
+          "nama": "Fotografer",
+          "harga": "Rp100.000",
+          "keterangan": "by request"
+        }
+      ],
+      "catatan": "Tarif coaching Rp165.000 per jam setara Rp330.000 untuk satu sesi 2 jam, dan sewa lapangan dihitung terpisah. Sumber: poster Private Class."
     }
   ],
   "venue": [
@@ -76,13 +119,28 @@
       "nama": "Lapangan Indoor UPI",
       "tipe": "Indoor",
       "kota": "Bandung",
-      "dipakai_untuk": "Coaching session reguler"
+      "dipakai_untuk": "Semi-Intense (Senin)"
     },
     {
-      "nama": "Lapangan Outdoor Pusdikku",
+      "nama": "Lapangan Outdoor UPI",
       "tipe": "Outdoor",
       "kota": "Bandung",
-      "dipakai_untuk": "Tennis Malam Minggu"
+      "dipakai_untuk": "Coaching Beginner (Selasa)"
+    },
+    {
+      "nama": "Lapangan Tennis PRV",
+      "kota": "Bandung",
+      "dipakai_untuk": "Fun Games (Sabtu)"
+    },
+    {
+      "nama": "Lapangan Abadi",
+      "kota": "Bandung",
+      "dipakai_untuk": "Private Class"
+    },
+    {
+      "nama": "Lapangan Secapa",
+      "kota": "Bandung",
+      "dipakai_untuk": "Private Class"
     }
   ],
   "sosial": {
@@ -120,7 +178,7 @@
     "pilar": [
       {
         "nama": "Dokumentasi Sesi",
-        "isi": "Rekaman latihan dan fun match di lapangan UPI maupun Pusdikku."
+        "isi": "Rekaman latihan dan fun games di lapangan UPI dan lapangan mitra lain di Bandung."
       },
       {
         "nama": "Humor Komunitas",
@@ -128,7 +186,7 @@
       },
       {
         "nama": "Informasi Jadwal",
-        "isi": "Poster jadwal coaching session dan event, dipin di urutan pertama feed Instagram."
+        "isi": "Poster jadwal mingguan dan tarif, dipin di urutan pertama feed Instagram."
       },
       {
         "nama": "Konten Kampus",
@@ -138,9 +196,13 @@
     "performa_catatan": "Di TikTok, video berformat humor (\"Coba Tebak Yang Mana Coachnya?\") mencatat 3.924 tayangan, jauh di atas dua video lain (588 dan 263). Pola ini mengindikasikan konten bernada ringan berkinerja lebih baik dibanding dokumentasi latihan biasa."
   },
   "perlu_konfirmasi": [
-    "Singkatan FG pada caption TikTok belum diketahui artinya.",
+    "Singkatan FG pada poster jadwal dan caption TikTok belum diketahui artinya.",
+    "Tennis Malam Minggu (Sabtu 18.00-20.00, Rp115.000) dan Lapangan Outdoor Pusdikku tidak lagi muncul di jadwal 25 September 2026, sehingga diasumsikan digantikan Fun Games. Perlu dipastikan apakah benar sudah dihentikan.",
+    "Poster jadwal tidak mencantumkan nama pelatih. Coach Iwan sebelumnya tercatat mengajar Tennis Malam Minggu yang kini tidak ada di jadwal.",
+    "Tipe lapangan (indoor atau outdoor) untuk PRV, Abadi, dan Secapa belum disebutkan.",
+    "Tingkat kemampuan untuk Semi-Intense dan Fun Games tidak dicantumkan di poster.",
     "Tahun berdiri, jumlah anggota aktif, dan struktur pengelola belum tercantum di kanal publik mana pun.",
-    "Alamat lengkap dan titik peta kedua lapangan belum dipublikasikan.",
+    "Alamat lengkap dan titik peta kelima lapangan belum dipublikasikan.",
     "URL tiga video TikTok belum tersedia karena TikTok tidak mengekspos daftar video ke pengunjung anonim."
   ]
 }

@@ -234,8 +234,8 @@ def kotak_info(judul: str, baris: list, lebar: float) -> Table:
             ("BACKGROUND", (0, 0), (1, 0), NAVY),
             ("BACKGROUND", (0, 1), (-1, -1), SOFT),
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("TOPPADDING", (0, 0), (-1, -1), 5),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("TOPPADDING", (0, 0), (-1, -1), 3.5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3.5),
             ("LEFTPADDING", (0, 0), (-1, -1), 8),
             ("RIGHTPADDING", (0, 0), (-1, -1), 8),
             ("LINEBELOW", (0, 1), (-1, -2), 0.4, colors.white),
@@ -285,7 +285,7 @@ def bangun(d: dict) -> list:
 
     cerita.append(Paragraph("Sekilas Data", S["h2"]))
     ig0, tt0 = d["sosial"]["instagram"], d["sosial"]["tiktok"]
-    # Bandingkan nilai rupiahnya, bukan stringnya: "Rp115.000" < "Rp85.000"
+    # Bandingkan nilai rupiahnya, bukan stringnya: "Rp105.000" < "Rp50.000"
     # secara leksikografis, yang akan salah menyebut paket termurah.
     def _rupiah(teks: str) -> int:
         angka = "".join(ch for ch in teks.split("Rp")[-1] if ch.isdigit())
@@ -301,7 +301,7 @@ def bangun(d: dict) -> list:
                 ("Basis", f'{d["brand"]["kota"]}, {d["brand"]["negara"]}'),
                 ("Fokus level", "Beginner sampai upper beginner"),
                 ("Layanan", ", ".join(p["nama"] for p in d["program"])),
-                ("Lapangan", ", ".join(v["nama"] for v in d["venue"])),
+                ("Lapangan", f'{len(d["venue"])} lokasi: ' + ", ".join(v["nama"].replace("Lapangan ", "") for v in d["venue"])),
                 ("Biaya mulai", harga_mulai),
                 (
                     "Jangkauan sosial",
@@ -324,30 +324,36 @@ def bangun(d: dict) -> list:
     cerita.append(Spacer(1, 4))
     cerita.append(
         Paragraph(
-            "Seluruh program terbuka untuk pemain pemula. Perlengkapan dasar "
-            "sudah termasuk dalam biaya, sehingga peserta baru tidak perlu "
-            "membeli raket sebelum mencoba.",
+            "Jadwal berjalan tetap setiap pekan. Kelas Senin dan Selasa di UPI "
+            "sudah mencakup raket, bola, dan ballboy, sehingga peserta baru tidak "
+            "perlu membeli perlengkapan sebelum mencoba. Untuk kelas privat, biaya "
+            "coaching dan sewa lapangan dihitung terpisah.",
             S["body"],
         )
     )
     cerita.append(Spacer(1, 4))
 
-    kepala = ["Program", "Level", "Jadwal / Durasi", "Lokasi", "Biaya"]
+    kepala = ["Program", "Hari", "Jam", "Lokasi", "Kuota", "Biaya"]
     baris = [[Paragraph(h, S["cell_head"]) for h in kepala]]
     for p in d["program"]:
-        waktu = p.get("jadwal") or p.get("durasi") or "—"
-        if p.get("kapasitas"):
-            waktu += f'<br/><font color="#64748B" size="7.6">{p["kapasitas"]}</font>'
+        # "Senin, 08.00 - 10.00 WIB" -> ambil bagian jamnya saja, harinya
+        # sudah punya kolom sendiri.
+        jadwal = p.get("jadwal") or ""
+        jam = jadwal.split(",", 1)[1].strip() if "," in jadwal else (p.get("durasi") or "—")
+        nama = p["nama"]
+        if p.get("level"):
+            nama += f'<br/><font color="#64748B" size="7.4">{p["level"]}</font>'
         baris.append([
-            Paragraph(p["nama"], S["cell_bold"]),
-            Paragraph(p.get("level", "—"), S["cell"]),
-            Paragraph(waktu, S["cell"]),
+            Paragraph(nama, S["cell_bold"]),
+            Paragraph(p.get("hari", "—"), S["cell"]),
+            Paragraph(jam, S["cell"]),
             Paragraph(p.get("lokasi", "—"), S["cell"]),
+            Paragraph(p.get("kapasitas", "—"), S["cell"]),
             Paragraph(f'<font name="{F_BOLD}">{p.get("harga", "—")}</font>', S["cell"]),
         ])
     t = Table(
         baris,
-        colWidths=[W * 0.21, W * 0.17, W * 0.20, W * 0.24, W * 0.18],
+        colWidths=[W * 0.19, W * 0.10, W * 0.16, W * 0.21, W * 0.13, W * 0.21],
         repeatRows=1,
     )
     t.setStyle(
@@ -368,23 +374,38 @@ def bangun(d: dict) -> list:
     cerita.append(Paragraph("Rincian Paket", S["h2"]))
     for p in d["program"]:
         isi = [("Termasuk", ", ".join(p["termasuk"]) if p.get("termasuk") else "—")]
+        if p.get("belum_termasuk"):
+            isi.append(("Belum termasuk", ", ".join(p["belum_termasuk"])))
         if p.get("pelatih"):
             isi.append(("Pelatih", p["pelatih"]))
+        for t_ in p.get("tarif_lapangan", []):
+            isi.append((
+                f'Lapangan {t_["lapangan"]}',
+                f'sewa {t_["sewa_lapangan"]} + coaching {t_["coaching"]} = '
+                f'<font name="{F_BOLD}">{t_["total"]}</font> per sesi 2 jam',
+            ))
+        for t_ in p.get("tambahan", []):
+            ket = f' ({t_["keterangan"]})' if t_.get("keterangan") else ""
+            isi.append((t_["nama"], f'{t_["harga"]}{ket}'))
         isi.append(("Catatan", p.get("catatan", "—")))
-        cerita.append(KeepTogether([kotak_info(p["nama"].upper(), isi, W), Spacer(1, 8)]))
+        cerita.append(KeepTogether([kotak_info(p["nama"].upper(), isi, W), Spacer(1, 6)]))
 
-    # ---- Halaman: Lapangan, kanal, kontak
-    cerita.append(PageBreak())
-    cerita.append(Paragraph("OPERASIONAL", S["eyebrow"]))
-    cerita.append(Paragraph("Lapangan & Kanal", S["h1"]))
-    cerita.append(Spacer(1, 6))
-
-    cerita.append(Paragraph("Lapangan", S["h2"]))
+    # ---- Lapangan, kanal, kontak
+    # Sengaja tanpa PageBreak: blok rincian paket terakhir sering menyisakan
+    # setengah halaman, jadi bagian ini dibiarkan mengalir mengisinya. Judul
+    # dan tabel pertamanya diikat supaya tidak terpisah di ujung halaman.
+    cerita.append(Spacer(1, 16))
+    kepala_operasional = [
+        Paragraph("OPERASIONAL", S["eyebrow"]),
+        Paragraph("Lapangan & Kanal", S["h1"]),
+        Spacer(1, 6),
+        Paragraph("Lapangan", S["h2"]),
+    ]
     vb = [[Paragraph(h, S["cell_head"]) for h in ["Lapangan", "Tipe", "Kota", "Dipakai untuk"]]]
     for v in d["venue"]:
         vb.append([
             Paragraph(v["nama"], S["cell_bold"]),
-            Paragraph(v["tipe"], S["cell"]),
+            Paragraph(v.get("tipe") or "—", S["cell"]),
             Paragraph(v["kota"], S["cell"]),
             Paragraph(v["dipakai_untuk"], S["cell"]),
         ])
@@ -401,7 +422,7 @@ def bangun(d: dict) -> list:
             ("LINEBELOW", (0, 0), (-1, 0), 1.6, LIME),
         ])
     )
-    cerita.append(t)
+    cerita.append(KeepTogether(kepala_operasional + [t]))
 
     cerita.append(Paragraph("Kanal Sosial", S["h2"]))
     ig, tt = d["sosial"]["instagram"], d["sosial"]["tiktok"]
